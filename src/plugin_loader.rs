@@ -41,6 +41,12 @@ impl PluginManager {
     }
 }
 
+impl Default for PluginManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Drop for PluginManager {
     fn drop(&mut self) {
         if !self.plugins.is_empty() {
