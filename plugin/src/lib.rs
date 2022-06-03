@@ -12,7 +12,7 @@ impl Plugin for PluginTest {
     fn on_plugin_unload(&self) {}
 
     fn execute(&self) {
-        println!("Executed plugin `test`!")
+        println!("A command from `{}` plugin has been executed", self.name())
     }
 }
 

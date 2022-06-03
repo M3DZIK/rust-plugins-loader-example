@@ -3,26 +3,62 @@ use std::env;
 use libloading::Library;
 use log::{debug, trace};
 
-/// A plugin which allows you to add extra functionality to the...
+/// A plugin which allows you to add extra functionality.
+///
+/// example plugin:
+///
+/// ```
+/// use plugins_loader::{Plugin, PluginRegistrar};
+///
+/// struct PluginTest;
+///
+///     impl Plugin for PluginTest {
+///     fn name(&self) -> &'static str {
+///         "plugin-name"
+///     }
+///
+///     fn on_plugin_load(&self) {}
+///
+///     fn on_plugin_unload(&self) {}
+///
+///     fn execute(&self) {
+///         println!("A command from `{}` plugin has been executed", self.name())
+///     }
+/// }
+/// ```
 pub trait Plugin {
     /// Get a name describing the `Plugin`.
     fn name(&self) -> &'static str;
-    // A function that runs immediately after plugin loading.
-    // Usually used for initialization.
+    /// A function that runs immediately after plugin loading.
+    /// Usually used for initialization.
     fn on_plugin_load(&self);
-    // A function that runs immediately before the plugin is unloaded.
-    // Use this if you want to do any cleanup.
+    /// A function that runs immediately before the plugin is unloaded.
+    /// Use this if you want to do any cleanup.
     fn on_plugin_unload(&self);
-    /// The function will be activated during...
+    /// The function will be executed, for example, when sending a message.
     fn execute(&self);
 }
 
+/// Plugin Manager
+///
+/// for example:
+///
+/// ```
+/// use plugins_loader::loader;
+///
+/// let plugins = loader()?;
+///
+/// for plugin in &plugins.plugins {
+///     plugin.execute()
+/// }
+/// ```
 pub struct PluginManager {
+    /// Vector with loaded plugins
     pub plugins: Vec<Box<dyn Plugin>>,
 }
 
 impl PluginManager {
-    // Create empty `PluginManager`
+    /// Create empty `PluginManager`
     pub fn new() -> PluginManager {
         PluginManager {
             plugins: Vec::new(),
@@ -47,6 +83,7 @@ impl Default for PluginManager {
     }
 }
 
+/// Drop loaded Plugins from memory
 impl Drop for PluginManager {
     fn drop(&mut self) {
         if !self.plugins.is_empty() {
