@@ -2,7 +2,7 @@
 
 An example of using and loading plugins from .so files.
 
-![](https://cdn.magicuser.cf/NJrIkYS.png)
+![](https://i.imgur.com/NJrIkYS.png)
 
 ## Build
 
