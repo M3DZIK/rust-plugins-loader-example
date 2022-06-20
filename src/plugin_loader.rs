@@ -5,7 +5,7 @@ use log::{debug, trace};
 
 /// A plugin which allows you to add extra functionality.
 ///
-/// example plugin:
+/// Example plugin:
 ///
 /// ```
 /// use plugins_loader::{Plugin, PluginRegistrar};
@@ -41,7 +41,7 @@ pub trait Plugin {
 
 /// Plugin Manager
 ///
-/// for example:
+/// Example:
 ///
 /// ```
 /// use plugins_loader::loader;
@@ -83,14 +83,14 @@ impl Default for PluginManager {
     }
 }
 
-/// Drop loaded Plugins from memory
-impl Drop for PluginManager {
-    fn drop(&mut self) {
-        if !self.plugins.is_empty() {
-            self.unload();
-        }
-    }
-}
+// /// Drop loaded Plugins from memory
+// impl Drop for PluginManager {
+//     fn drop(&mut self) {
+//         if !self.plugins.is_empty() {
+//             self.unload();
+//         }
+//     }
+// }
 
 pub trait PluginRegistrar {
     fn register_plugin(&mut self, plugin: Box<dyn Plugin>);
